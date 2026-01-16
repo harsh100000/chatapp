@@ -111,11 +111,19 @@ const SideDrawer = () => {
         </div>
 
         <div ref={menuRef} className="relative inline-block text-left">
-          <i
-            className="ri-notification-2-fill cursor-pointer"
-            onClick={()=>setNotificationListOpen(!notificationListOpen)}
-            style={{ fontSize: "24px", paddingRight: "15px" }}
-          ></i>
+          <div
+            className="relative inline-block"
+            onClick={() => setNotificationListOpen(!notificationListOpen)}
+          >
+            <i
+              className="ri-notification-2-fill cursor-pointer"
+              style={{ fontSize: "32px", paddingRight: "15px" }}
+            ></i>
+
+            {notification.length > 0 && <span className="absolute top-1.5 right-3 bg-red-500 text-white text-xs rounded-full min-w-4 h-4 flex items-center justify-center">
+              {notification.length}
+            </span>}
+          </div>
           <button
             onClick={() => setProfileOptionsOpen(!profileOptionsOpen)}
             className="cursor-pointer inline-flex items-center gap-4 rounded-md bg-blue-600 px-4 py-0.5 text-white hover:bg-blue-700"
@@ -134,10 +142,14 @@ const SideDrawer = () => {
             </span>
           </button>
 
-            {notificationListOpen && (
+          {notificationListOpen && (
             <div className="absolute right-0 mt-2 w-44 rounded-md border bg-white shadow-lg">
               <ul className="py-1 text-sm text-gray-700">
-                {!notification.length && <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">No new message</li>}
+                {!notification.length && (
+                  <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">
+                    No new message
+                  </li>
+                )}
                 {notification.map((notif) => (
                   <li
                     className="cursor-pointer px-4 py-2 hover:bg-gray-100"
