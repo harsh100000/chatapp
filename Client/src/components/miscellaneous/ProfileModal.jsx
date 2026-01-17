@@ -19,7 +19,7 @@ const ProfileModal = ({ user, children }) => {
 
               <button
                 onClick={() => setProfileModalOpen(false)}
-                className="absolute cursor-pointer right-0 top-0 p-2 rounded hover:bg-gray-100 text-gray-500 hover:text-black"
+                className="text-3xl absolute cursor-pointer right-0 top-0 p-2 rounded hover:bg-gray-100 text-gray-500 hover:text-black"
               >
                 ✕
               </button>

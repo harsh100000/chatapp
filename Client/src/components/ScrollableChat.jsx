@@ -34,7 +34,10 @@ const ScrollableChat = ({ messages }) => {
             >
               {m.content}
               <span className="flex flex-col items-end pt-1 text-sm">
-                12:14 am
+                {new Date(m.createdAt).toLocaleTimeString("en-IN", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </span>
             </span>
           </div>

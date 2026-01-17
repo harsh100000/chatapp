@@ -92,58 +92,57 @@ const SideDrawer = () => {
 
   return (
     <>
-      <div className="flex justify-between px-3 py-2 bg-gray-800 h-16 text-white">
-        <div className="relative">
+      <div className="flex items-center justify-between px-3 py-2 bg-gray-800 text-white h-16">
+        <div className="relative w-1/2 md:w-[15%]">
           <input
             type="text"
             onClick={() => setDrawerOpen(true)}
             placeholder="Search User"
-            className="pl-10 pr-4 py-2 w-full border text-white border-gray-700 rounded-lg "
+            className="pl-10 pr-4 py-2 w-full border-2 text-white border-white rounded-lg bg-gray-800"
           />
-
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <i className="ri-search-line"></i>
           </div>
         </div>
 
-        <div>
-          <h2 className="text-3xl">Talk-A-Tive</h2>
+        <div className="hidden sm:block absolute left-1/2 -translate-x-1/2">
+          <h2 className="text-2xl md:text-3xl">ChatWave</h2>
         </div>
 
-        <div ref={menuRef} className="relative inline-block text-left">
+        <div
+          ref={menuRef}
+          className="relative w-1/2 flex justify-end items-center gap-2"
+        >
           <div
             className="relative inline-block"
             onClick={() => setNotificationListOpen(!notificationListOpen)}
           >
             <i
               className="ri-notification-2-fill cursor-pointer"
-              style={{ fontSize: "32px", paddingRight: "15px" }}
+              style={{ fontSize: "32px" }}
             ></i>
 
-            {notification.length > 0 && <span className="absolute top-1.5 right-3 bg-red-500 text-white text-xs rounded-full min-w-4 h-4 flex items-center justify-center">
-              {notification.length}
-            </span>}
+            {notification.length > 0 && (
+              <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full min-w-4 h-4 flex items-center justify-center">
+                {notification.length}
+              </span>
+            )}
           </div>
+
           <button
             onClick={() => setProfileOptionsOpen(!profileOptionsOpen)}
-            className="cursor-pointer inline-flex items-center gap-4 rounded-md bg-blue-600 px-4 py-0.5 text-white hover:bg-blue-700"
+            className="cursor-pointer inline-flex items-center gap-2 rounded-md bg-yellow-600 px-3 py-0.5 text-white hover:bg-yellow-700"
           >
             <img
-              className="w-10 h-10 rounded-full cusror-pointer"
+              className="w-9 h-9 rounded-full"
               src={user.profilePicture}
-              alt="Rounded avatar"
+              alt="avatar"
             />
-            <span
-              className={`transition-transform ${
-                profileOptionsOpen ? "rotate-180" : ""
-              }`}
-            >
-              <i className="ri-arrow-down-s-line"></i>
-            </span>
+            <i className={`ri-arrow-${profileOptionsOpen ? "up": "down"}-s-line`}></i>
           </button>
 
           {notificationListOpen && (
-            <div className="absolute right-0 mt-2 w-44 rounded-md border bg-white shadow-lg">
+            <div className="absolute right-24 mt-20 w-44 rounded-md border bg-white shadow-lg">
               <ul className="py-1 text-sm text-gray-700">
                 {!notification.length && (
                   <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">
@@ -169,7 +168,7 @@ const SideDrawer = () => {
           )}
 
           {profileOptionsOpen && (
-            <div className="absolute right-0 mt-2 w-44 rounded-md border bg-white shadow-lg">
+            <div className="absolute right-0 mt-32 w-32 rounded-md border bg-white shadow-lg">
               <ul className="py-1 text-sm text-gray-700">
                 <ProfileModal user={user}>
                   <li className="cursor-pointer px-4 py-2 hover:bg-gray-100">

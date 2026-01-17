@@ -138,7 +138,7 @@ const GroupChatModal = ({ children }) => {
             </div>
             <button
               onClick={handleSubmit}
-              className="border bg-cyan-300 text-black px-3 py-1 rounded mt-3 cursor-pointer"
+              className="border bg-emerald-600 text-white px-3 py-2 rounded mt-3 cursor-pointer"
             >
               Create group
             </button>

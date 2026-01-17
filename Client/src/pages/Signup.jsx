@@ -4,8 +4,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { RiEyeFill, RiEyeOffFill } from "@remixicon/react";
+import { ChatState } from "../../Context/ChatProvider";
+import ChatWaveLogo from "../assets/ChatWaveLogo.png"
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const { setUser } = ChatState();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,7 +18,6 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false)
 
-  const navigate = useNavigate();
 
   const uploadPic = (pic) =>{
     setLoading(true)
@@ -60,6 +64,7 @@ const Signup = () => {
     try {
       const {data} = await axios.post("http://127.0.0.1:3000/api/user/signup", user);
       localStorage.setItem('userInfo', JSON.stringify(data))
+      setUser(data);
       navigate("/chats");
     } catch (error) {
       console.log(error);
@@ -81,10 +86,10 @@ const Signup = () => {
           >
             <img
               className="w-8 h-8 mr-2"
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+              src={ChatWaveLogo}
               alt="logo"
             />
-            LoopChat
+            ChatWave
           </Link>
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -181,35 +186,11 @@ const Signup = () => {
                   />
                 </div>
 
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="terms"
-                      aria-describedby="terms"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      htmlFor="terms"
-                      className="font-light text-gray-500 dark:text-gray-300"
-                    >
-                      I accept the{" "}
-                      <a
-                        className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                        href="#"
-                      >
-                        Terms and Conditions
-                      </a>
-                    </label>
-                  </div>
-                </div>
                 <button
                   type="submit"
                   disabled={loading ? true: false}
-                  className={`w-full text-white bg-blue-600 ${loading?"cursor-not-allowed bg-gray-400":""} hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800`}
+                  className={`w-full cursor-pointer text-white bg-linear-to-r from-green-400 via-green-500 to-green-600 hover:bg-linear-to-br focus:ring-4 focus:outline-none focus:ring-green-300 ${loading?"cursor-not-allowed bg-gray-400":""} dark:focus:ring-green-800 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5`}
+
                 >
                   {loading ? "Loading" : "Create an account"}
                 </button>

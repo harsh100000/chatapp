@@ -1,17 +1,14 @@
 import { ChatState } from "../../Context/ChatProvider";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
-import {
-  getSender,
-  getSenderFull,
-} from "../config/ChatLogic";
+import { getSender, getSenderFull } from "../config/ChatLogic";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
-import Lottie from 'react-lottie'
-import animationData from "../animations/typing.json"
+import Lottie from "react-lottie";
+import animationData from "../animations/typing.json";
 
 const ENDPOINT = "http://127.0.0.1:3000";
 let socket, selectedChatCompare;
@@ -23,16 +20,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const { user, selectedChat, setSelectedChat, notification, setNotification } = ChatState();
+  const { user, selectedChat, setSelectedChat, notification, setNotification } =
+    ChatState();
 
   const defaultOptions = {
-    loop:true,
-    autoplay:true,
+    loop: true,
+    autoplay: true,
     animationData: animationData,
-    rendererSettings:{
-      preserveAspectRation:"xMidYMid slice"
-    }
-  }
+    rendererSettings: {
+      preserveAspectRation: "xMidYMid slice",
+    },
+  };
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -78,7 +76,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
         socket.emit("newMessage", data);
         setMessages([...messages, data]);
-        // setFetchAgain(!fetchAgain)
       } catch (error) {
         toast("Failed to send message");
         console.log(error.message);
@@ -99,26 +96,23 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     selectedChatCompare = selectedChat;
   }, [selectedChat]);
 
-
   useEffect(() => {
     socket.on("messageRecieved", (newMessageRecieved) => {
       if (
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageRecieved.chat._id
-      ) 
-      {
-        if(!notification.includes(newMessageRecieved)){
-          setNotification([newMessageRecieved, ...notification])
-          setFetchAgain(!fetchAgain)
+      ) {
+        if (!notification.includes(newMessageRecieved)) {
+          setNotification([newMessageRecieved, ...notification]);
+          setFetchAgain(!fetchAgain);
         }
-      } 
-    else {
+      } else {
         setMessages([...messages, newMessageRecieved]);
       }
     });
   });
 
-    const typingHandler = (e) => {
+  const typingHandler = (e) => {
     setNewMessage(e.target.value);
     if (!socketConnected) return;
     if (!typing) {
@@ -143,7 +137,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         <div>
           {!selectedChat.isGroupChat ? (
             <div className="flex justify-between">
-              <div>
+              <div className="flex">
+                <button
+                  onClick={() => {
+                    setSelectedChat(null)
+                    window.history.back();
+                  }}
+                  className="md:hidden mr-2 text-4xl cursor-pointer"
+                >
+                  <i className="ri-arrow-left-line"></i>
+                </button>
                 <p className="text-2xl font-semibold p-2">
                   {getSender(user, selectedChat.users)}
                 </p>
@@ -158,7 +161,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             </div>
           ) : (
             <div className="flex justify-between">
-              <div>
+              <div className="flex">
+                <button
+                  onClick={() => {
+                    setSelectedChat(null)
+                    window.history.back();
+                  }}
+                  className="md:hidden mr-2 text-4xl cursor-pointer"
+                >
+                  <i className="ri-arrow-left-line"></i>
+                </button>
                 <p className="text-2xl p-2 font-semibold">
                   {selectedChat.chatName}
                 </p>
@@ -182,9 +194,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           </div>
 
           <div className="flex items-center justify-evenly h-20">
-            <div>
+            <div className="w-full">
               {isTyping ? (
-                <div><Lottie options={defaultOptions} width={70} style={{marginBottom:3, marginLeft:0}} /></div>
+                <div>
+                  <Lottie
+                    options={defaultOptions}
+                    width={70}
+                    style={{ marginBottom: "10px", marginTop:"10px", marginLeft: 0 }}
+                  />
+                </div>
               ) : (
                 <></>
               )}
@@ -193,13 +211,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 type="text"
                 value={newMessage}
                 onChange={typingHandler}
-                className="border w-[190%] rounded-4xl py-3 px-3 text-lg"
+                className="border w-full md:w-[90%] rounded-4xl py-3 px-3 text-lg"
               />
             </div>
-            <div className="">
+            <div>
               <button
                 onClick={sendMessage}
-                className="border rounded-4xl bg-green-700 text-white px-8 py-3 text-xl cursor-pointer"
+                className={`border rounded-4xl  text-white ml-2 px-8 py-3 text-xl cursor-pointer ${!newMessage? "disabled bg-gray-400":"bg-green-700"}`}
               >
                 Send
               </button>

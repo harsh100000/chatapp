@@ -1,25 +1,44 @@
-import { Routes, Route} from 'react-router-dom' 
-import ChatPage from './pages/ChatPage'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import TestPage from './pages/TestPage'
-import { ToastContainer } from 'react-toastify';
-import Test2 from './pages/Test2'
+import { Routes, Route } from "react-router-dom";
+import ChatPage from "./pages/ChatPage";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import PublicRoute from "./components/PublicRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 
 const App = () => {
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <Routes>
-        <Route path='/' element={<Login/>} />
-        <Route path='/signup' element={<Signup/>} />
-        <Route path='/chats' element={<ChatPage/>} />
-        <Route path='/test' element={<TestPage/>} />
-        <Route path='/test2' element={<Test2/>} />
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/chats"
+          element={
+            <ProtectedRoute>
+              <ChatPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
